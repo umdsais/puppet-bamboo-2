@@ -17,6 +17,7 @@ USER=<%= @user %>
 SHELL=<%= @shell %>
 export JAVA_HOME=<%= @java_home %>
 export CATALINA_HOME=<%= @appdir %>
+export UMASK=<%= @umask %>
 SHUTDOWN_WAIT=<%= @shutdown_wait %>
 
 if [ -f "<%= @initconfig_path %>" ]; then

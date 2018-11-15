@@ -13,6 +13,7 @@ class bamboo::service (
   $initconfig_manage   = $bamboo::initconfig_manage,
   $initconfig_path     = $bamboo::initconfig_path,
   $initconfig_content  = $bamboo::initconfig_content,
+  $umask               = $bamboo::umask,
 ) {
 
   if $initconfig_manage {

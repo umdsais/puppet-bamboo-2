@@ -5,7 +5,7 @@
 # Refer to the README at the root of this module for documentation
 #
 class bamboo (
-  $version            = '5.14.3.1',
+  $version            = '6.7.1',
   $extension          = 'tar.gz',
   $manage_installdir  = true,
   $installdir         = '/usr/local/bamboo',
@@ -47,6 +47,7 @@ class bamboo (
   $facter_dir         = $bamboo::params::facter_dir,
   $create_facter_dir  = true,
   $stop_command       = $bamboo::params::stop_command,
+  $umask              = undef,
 ) inherits bamboo::params {
 
   validate_re($version, ['^\d+\.\d+\.\d+$', '^\d+\.\d+\.\d+\.\d+$'])

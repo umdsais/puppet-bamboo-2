@@ -471,6 +471,12 @@ Default: '' (empty)
 If `initconfig_manage => true`, this string should be the content to populate
 the init config file with.
 
+##### `umask`
+
+Default: `undef` (will use Bamboo's default)
+
+Specifies a UMASK to run Bamboo with.
+
 ### Other Classes
 
 The following classes are called from the base class.  You shouldn't need to
@@ -493,6 +499,7 @@ declare these directly.
 * Ubuntu 16.04
 * Puppet 3.x
 * Puppet 4.x
+* Puppet 5.x
 
 ### Bamboo Configuration
 
