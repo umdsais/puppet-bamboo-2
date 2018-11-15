@@ -117,11 +117,11 @@ class bamboo (
   validate_bool($create_facter_dir)
   validate_string($stop_command)
 
-  anchor { 'bamboo::start': } ->
-  class { 'bamboo::install': } ->
-  class { 'bamboo::facts': } ->
-  class { 'bamboo::configure': } ~>
-  class { 'bamboo::service': } ->
-  anchor { 'bamboo::end': }
+  anchor { 'bamboo::start': }
+    -> class { 'bamboo::install': }
+    -> class { 'bamboo::facts': }
+    -> class { 'bamboo::configure': }
+    ~> class { 'bamboo::service': }
+    -> anchor { 'bamboo::end': }
 
 }

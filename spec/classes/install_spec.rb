@@ -20,7 +20,7 @@ describe 'bamboo' do
 
 					it do
        is_expected.to contain_user('bamboo').with(
-						   'shell'      => '/bin/bash',
+						  'shell'      => '/bin/bash',
    						'home'       => '/var/local/bamboo',
    						'managehome' => true,
 					  )
@@ -30,29 +30,29 @@ describe 'bamboo' do
 
 					it do
        is_expected.to contain_file('/usr/local/bamboo').with(
-						   'owner' => 'bamboo',
+						  'owner' => 'bamboo',
    						'group' => 'bamboo',
 					  )
 					end
 
 					it do
-       is_expected.to contain_file('/usr/local/bamboo/atlassian-bamboo-5.14.3.1').with(
-						   'owner' => 'bamboo',
+       is_expected.to contain_file('/usr/local/bamboo/atlassian-bamboo-6.7.1').with(
+						  'owner' => 'bamboo',
    						'group' => 'bamboo',
 					  )
 					end
 
 					it do
-       is_expected.to contain_staging__file('atlassian-bamboo-5.14.3.1.tar.gz').with(
-						   'source'  => 'https://www.atlassian.com/software/bamboo/downloads/binary/atlassian-bamboo-5.14.3.1.tar.gz',
+       is_expected.to contain_staging__file('atlassian-bamboo-6.7.1.tar.gz').with(
+						  'source'  => 'https://www.atlassian.com/software/bamboo/downloads/binary/atlassian-bamboo-6.7.1.tar.gz',
    						'timeout' => '1800',
 					  )
 					end
 
 					it do
-       is_expected.to contain_staging__extract('atlassian-bamboo-5.14.3.1.tar.gz').with(
-						   'target'  => '/usr/local/bamboo/atlassian-bamboo-5.14.3.1',
-   						'creates' => '/usr/local/bamboo/atlassian-bamboo-5.14.3.1/conf',
+       is_expected.to contain_staging__extract('atlassian-bamboo-6.7.1.tar.gz').with(
+						   'target'  => '/usr/local/bamboo/atlassian-bamboo-6.7.1',
+   						'creates' => '/usr/local/bamboo/atlassian-bamboo-6.7.1/conf',
    						'user'    => 'bamboo',
    						'group'   => 'bamboo',
 					  )
@@ -66,8 +66,8 @@ describe 'bamboo' do
 					end
 
 					it do
-       is_expected.to contain_exec('chown_/usr/local/bamboo/atlassian-bamboo-5.14.3.1').with(
-						   'command' => 'chown -R bamboo:bamboo /usr/local/bamboo/atlassian-bamboo-5.14.3.1',
+       is_expected.to contain_exec('chown_/usr/local/bamboo/atlassian-bamboo-6.7.1').with(
+						   'command' => 'chown -R bamboo:bamboo /usr/local/bamboo/atlassian-bamboo-6.7.1',
 					  )
 					end
 				end

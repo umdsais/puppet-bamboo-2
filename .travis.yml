@@ -3,6 +3,7 @@ sudo: false
 language: ruby
 before_install:
   - rm Gemfile.lock || true
+  - gem update --system
   - gem update bundler
 cache: bundler
 script: bundle exec rake test
@@ -43,9 +44,6 @@ matrix:
     bundler_args: --without system_tests development
     env: PUPPET_GEM_VERSION="~> 3.0" FUTURE_PARSER="yes" STRICT_VARIABLES=yes
   - rvm: 2.1.5
-    bundler_args: --without system_tests development
-    env: PUPPET_GEM_VERSION="~> 3.0"
-  - rvm: 1.9.3
     bundler_args: --without system_tests development
     env: PUPPET_GEM_VERSION="~> 3.0"
   allow_failures:

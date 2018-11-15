@@ -48,7 +48,8 @@ test_tasks = [
   :metadata_lint,
   :syntax,
   :lint,
-  :rubocop,
+# rubocop tests are temporarily disabled
+#  :rubocop,
   :spec,
 ]
 
