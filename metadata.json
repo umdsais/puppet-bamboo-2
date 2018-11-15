@@ -1,6 +1,6 @@
 {
   "name": "joshbeard-bamboo",
-  "version": "3.4.1",
+  "version": "3.5.0",
   "author": "joshbeard",
   "summary": "Manages the installation of Atlassian Bamboo",
   "license": "Apache-2.0",
