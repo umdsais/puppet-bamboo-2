@@ -24,22 +24,24 @@
 ## Overview
 
 This is a Puppet module to manage the installation and initial configuration
-of Atlassian Bamboo, a continuous integration and build server.
+of [Atlassian Bamboo](https://www.atlassian.com/software/bamboo), a continuous integration and build server.
 
 * Manages the download and installation of Bamboo
-* Manages some pre-installation configuration settings, such as Tomcat ports,
-  proxy configuration, Java options
-* Manages a bamboo user, group, and home
+* Manages some configuration settings, such as Tomcat ports,
+  proxy configuration, Java options, and JVM tuning.
+* Manages a user, group, and home
 * Manages a service for Bamboo
+
+There's still some post-installation steps that will need to be completed manually, such as entering a license and configuring the database.
 
 This is a fork of [maestrodev/bamboo](https://github.com/maestrodev/puppet-bamboo),
 which appears to be dormant.  It includes improvements from other authors as
 well, notably, [Simon Croomes](https://github.com/croomes/puppet-bamboo).
 
 This module tries to follow conventions in the
-[Confluence](https://github.com/puppet-community/puppet-confluence),
-[Jira](https://github.com/puppet-community/puppet-jira), and
-[Stash](https://github.com/puppet-community/puppet-stash) modules
+[Confluence](https://forge.puppet.com/puppet/confluence),
+[Jira](https://forge.puppet.com/puppet/jira), and
+[BitBucket](https://forge.puppet.com/thewired/bitbucket) modules
 
 ## Prerequisites
 
@@ -49,6 +51,8 @@ This module tries to follow conventions in the
 Consult the [Atlassian Bamboo documentation](https://confluence.atlassian.com/bamboo/bamboo-documentation-home-289276551.html)
 for specific system requirements for your platform and version.  This module
 does not manage a Java installation.
+
+__NOTE:__ Since Bamboo 5.10, Atlassian no longer supports JDK < 8
 
 ## Usage
 
@@ -69,19 +73,41 @@ The `bamboo` class serves as a single "point of entry" for the module.
 
 ```puppet
 class { 'bamboo':
-  version      => '5.14.3.1',
+  version      => '6.7.1',
   installdir   => '/opt/bamboo',
   homedir      => '/var/local/bamboo',
   user         => 'bamboo',
   java_home    => '/over/the/rainbow/java',
   download_url => 'https://mirrors.example.com/atlassian/bamboo',
   context_path => 'bamboo',
+  umask        => '0022',
   proxy        => {
     scheme    => 'https',
     proxyName => 'bamboo.example.com',
     proxyPort => '443',
   },
 }
+```
+
+##### Using Hiera
+
+```puppet
+contain bamboo
+```
+
+```yaml
+bamboo::version: '6.7.1'
+bamboo::checksum: '774ec0917cccc5b90b7be3df4d661620'
+bamboo::installdir: '/opt/bamboo'
+bamboo::jvm_xms: '512m'
+bamboo::jvm_xmx: '1024m'
+bamboo::proxy:
+  scheme: 'https'
+  proxyName: 'bamboo.intranet.org'
+  proxyPort: '443'
+bamboo::umask: '0022'
+bamboo::download_url: 'https://repo.intranet.org/atlassian'
+bamboo::java_home: '/etc/alternatives/java_sdk'
 ```
 
 #### Context Path
@@ -162,7 +188,7 @@ class { 'bamboo':
 
 ##### `version`
 
-Default: '5.14.3.1'
+Default: '6.7.1'
 
 The version of Bamboo to download and install.  Should be in a MAJOR.MINOR.PATH
 format.
@@ -182,8 +208,8 @@ Default: '/usr/local/bamboo'
 
 The base directory for extracting/installing Bamboo to.  Note that it will
 decompress _inside_ this directory to a directory such as
-`atlassian-bamboo-5.9.7/`  So an `installdir` of `/usr/local/bamboo` will
-ultimately install Bamboo to `/usr/local/bamboo/atlassian-bamboo-5.9.7/` by
+`atlassian-bamboo-6.7.1/`  So an `installdir` of `/usr/local/bamboo` will
+ultimately install Bamboo to `/usr/local/bamboo/atlassian-bamboo-6.7.1/` by
 default.
 
 Refer to `manage_installdir` and `appdir`
@@ -492,14 +518,14 @@ declare these directly.
 
 * EL 6
 * EL 7
-* Debian 7
 * Debian 8
-* Ubuntu 12.04
+* Debian 9
 * Ubuntu 14.04
 * Ubuntu 16.04
-* Puppet 3.x
+* Ubuntu 18.04
 * Puppet 4.x
 * Puppet 5.x
+* Puppet 6.x
 
 ### Bamboo Configuration
 

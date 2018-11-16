@@ -2,8 +2,9 @@ require 'spec_helper'
 
 describe 'bamboo' do
   context 'unsupported operating systems' do
-    let(:facts) {{ :osfamily => 'Windows' }}
-    it { expect { catalogue }.to raise_error(Puppet::Error, /not supported/) }
+    let(:facts) { { osfamily: 'Windows' } }
+
+    it { expect { catalogue }.to raise_error(Puppet::Error, %r{not supported}) }
   end
 
   context 'supported operating systems' do
@@ -13,8 +14,8 @@ describe 'bamboo' do
           facts
         end
 
-        context "default parameters" do
-          let(:params) {{ }}
+        context 'default parameters' do
+          let(:params) { {} }
 
           it { is_expected.to contain_anchor('bamboo::start').that_comes_before('Class[bamboo::install]') }
           it { is_expected.to contain_class('bamboo') }
@@ -26,165 +27,197 @@ describe 'bamboo' do
           it { is_expected.to contain_anchor('bamboo::end') }
         end
 
-        context "invalid parameters" do
-          context "version" do
-            let(:params) {{ :version => 'invalid' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /does not match/) }
+        context 'invalid parameters' do
+          context 'version' do
+            let(:params) { { version: 'invalid' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{does not match}) }
           end
 
-          context "extension" do
-            let(:params) {{ :extension => '.exe' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /does not match/) }
+          context 'extension' do
+            let(:params) { { extension: '.exe' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{does not match}) }
           end
 
-          context "installdir" do
-            let(:params) {{ :installdir => 'notabsolute' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /not an absolute path/) }
+          context 'installdir' do
+            let(:params) { { installdir: 'notabsolute' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{not an absolute path}) }
           end
 
-          context "homedir" do
-            let(:params) {{ :homedir => 'aint_valid' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /not an absolute path/) }
+          context 'homedir' do
+            let(:params) { { homedir: 'aint_valid' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{not an absolute path}) }
           end
 
-          context "context_path" do
-            let(:params) {{ :context_path => ['invalid'] }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /not a string/) }
+          context 'context_path' do
+            let(:params) { { context_path: ['invalid'] } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{not a string}) }
           end
 
-          context "tomcat_port" do
-            let(:params) {{ :tomcat_port => 'none' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /Expected first argument to be an Integer/) }
+          context 'tomcat_port' do
+            let(:params) { { tomcat_port: 'none' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{Expected first argument to be an Integer}) }
           end
 
-          context "max_threads" do
-            let(:params) {{ :max_threads => 'this' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /Expected first argument to be an Integer/) }
+          context 'max_threads' do
+            let(:params) { { max_threads: 'invalid' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{Expected first argument to be an Integer}) }
           end
 
-          context "min_spare_threads" do
-            let(:params) {{ :min_spare_threads => 'is' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /Expected first argument to be an Integer/) }
+          context 'min_spare_threads' do
+            let(:params) { { min_spare_threads: 'invalid' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{Expected first argument to be an Integer}) }
           end
 
-          context "connection_timeout" do
-            let(:params) {{ :connection_timeout => 'not' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /Expected first argument to be an Integer/) }
+          context 'connection_timeout' do
+            let(:params) { { connection_timeout: 'invalid' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{Expected first argument to be an Integer}) }
           end
 
-          context "accept_count" do
-            let(:params) {{ :accept_count => 'valid' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /Expected first argument to be an Integer/) }
+          context 'accept_count' do
+            let(:params) { { accept_count: 'valid' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{Expected first argument to be an Integer}) }
           end
 
-          context "proxy" do
-            let(:params) {{ :proxy => 'this is wrong' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /is not a Hash/) }
+          context 'proxy' do
+            let(:params) { { proxy: 'this is wrong' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{is not a Hash}) }
           end
 
-          context "manage_user" do
-            let(:params) {{ :manage_user => 'jdoe' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /not a boolean/) }
+          context 'manage_user' do
+            let(:params) { { manage_user: 'jdoe' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{not a boolean}) }
           end
 
-          context "manage_group" do
-            let(:params) {{ :manage_group => 'sdoe' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /not a boolean/) }
+          context 'manage_group' do
+            let(:params) { { manage_group: 'sdoe' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{not a boolean}) }
           end
 
-          context "user" do
-            let(:params) {{ :user => 'not$valid' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /does not match/) }
+          context 'user' do
+            let(:params) { { user: 'not$valid' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{does not match}) }
           end
 
-          context "group" do
-            let(:params) {{ :group => 'not%this one' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /does not match/) }
+          context 'group' do
+            let(:params) { { group: 'not%this one' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{does not match}) }
           end
 
-          context "uid" do
-            let(:params) {{ :uid => 'denver' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /Expected first argument to be an Integer/) }
+          context 'uid' do
+            let(:params) { { uid: 'denver' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{Expected first argument to be an Integer}) }
           end
 
-          context "gid" do
-            let(:params) {{ :gid => 'colorado' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /Expected first argument to be an Integer/) }
+          context 'gid' do
+            let(:params) { { gid: 'colorado' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{Expected first argument to be an Integer}) }
           end
 
-          context "password" do
-            let(:params) {{ :password => ['yeah, should be string'] }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /not a string/) }
+          context 'password' do
+            let(:params) { { password: ['yeah, should be string'] } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{not a string}) }
           end
 
-          context "shell" do
-            let(:params) {{ :shell => 'nologin' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /not an absolute path/) }
+          context 'shell' do
+            let(:params) { { shell: 'nologin' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{not an absolute path}) }
           end
 
-          context "java_home" do
-            let(:params) {{ :java_home => 'idunno' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /not an absolute path/) }
+          context 'java_home' do
+            let(:params) { { java_home: 'idunno' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{not an absolute path}) }
           end
 
-          context "jvm_xms" do
-            let(:params) {{ :jvm_xms => 'unicorns' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /does not match/) }
+          context 'jvm_xms' do
+            let(:params) { { jvm_xms: 'invalid' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{does not match}) }
           end
 
-          context "jvm_xmx" do
-            let(:params) {{ :jvm_xmx => 'lazy' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /does not match/) }
+          context 'jvm_xmx' do
+            let(:params) { { jvm_xmx: 'lazy' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{does not match}) }
           end
 
-          context "jvm_permgen" do
-            let(:params) {{ :jvm_permgen => 'notnum' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /does not match/) }
+          context 'jvm_permgen' do
+            let(:params) { { jvm_permgen: 'notnum' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{does not match}) }
           end
 
-          context "jvm_opts" do
-            let(:params) {{ :jvm_opts => ['should be a string'] }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /not a string/) }
+          context 'jvm_opts' do
+            let(:params) { { jvm_opts: ['should be a string'] } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{not a string}) }
           end
 
-          context "jvm_optional" do
-            let(:params) {{ :jvm_optional => ['also should be string'] }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /not a string/) }
+          context 'jvm_optional' do
+            let(:params) { { jvm_optional: ['also should be string'] } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{not a string}) }
           end
 
-          context "download_url" do
-            let(:params) {{ :download_url => '//path/to/my/bsod' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /does not match/) }
+          context 'download_url' do
+            let(:params) { { download_url: '//path/to/my/bsod' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{does not match}) }
           end
 
-          context "manage_service" do
-            let(:params) {{ :manage_service => 'sure' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /not a boolean/) }
+          context 'manage_service' do
+            let(:params) { { manage_service: 'sure' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{not a boolean}) }
           end
 
-          context "service_ensure" do
-            let(:params) {{ :service_ensure => 'definitely' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /does not match/) }
+          context 'service_ensure' do
+            let(:params) { { service_ensure: 'definitely' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{does not match}) }
           end
 
-          context "service_enable" do
-            let(:params) {{ :service_enable => 'yes' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /not a boolean/) }
+          context 'service_enable' do
+            let(:params) { { service_enable: 'yes' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{not a boolean}) }
           end
 
-          context "service_file" do
-            let(:params) {{ :service_file => 'init.d/bamboo' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /not an absolute path/) }
+          context 'service_file' do
+            let(:params) { { service_file: 'init.d/bamboo' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{not an absolute path}) }
           end
 
-          context "service_template" do
-            let(:params) {{ :service_template => 'foo.erb' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /should be modulename\/path/) }
+          context 'service_template' do
+            let(:params) { { service_template: 'foo.erb' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{should be modulename\/path}) }
           end
 
-          context "shutdown_wait" do
-            let(:params) {{ :shutdown_wait => 'false' }}
-            it { expect { catalogue }.to raise_error(Puppet::Error, /Expected first argument to be an Integer/) }
+          context 'shutdown_wait' do
+            let(:params) { { shutdown_wait: 'false' } }
+
+            it { expect { catalogue }.to raise_error(Puppet::Error, %r{Expected first argument to be an Integer}) }
           end
         end
       end

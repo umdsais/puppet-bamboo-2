@@ -30,8 +30,11 @@ class bamboo::params {
           }
         }
         'Debian': {
-          if versioncmp($::operatingsystemmajrelease, '8') >= 0 {
+          if versioncmp($::operatingsystemmajrelease, '8') == 0 {
             $service_file     = '/lib/systemd/system/bamboo.service'
+            $service_template = 'bamboo/bamboo.service.erb'
+          } elsif versioncmp($::operatingsystemmajrelease, '9') >= 0 {
+            $service_file     = '/etc/systemd/system/bamboo.service'
             $service_template = 'bamboo/bamboo.service.erb'
           }
           else {
@@ -40,18 +43,18 @@ class bamboo::params {
           }
         }
         default: {
-          fail("bamboo module is not supported on ${::operatingsystem}")
+          fail("The bamboo module is not supported on ${::operatingsystem}")
         }
       }
 
     }
 
     'Windows': {
-      fail('bamboo module is not supported on Windows')
+      fail('The bamboo module is not supported on Windows')
     }
 
     default: {
-      fail("bamboo module is not supported on ${::osfamily}")
+      fail("The bamboo module is not supported on ${::osfamily}")
     }
   }
 
