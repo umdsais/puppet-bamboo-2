@@ -9,6 +9,7 @@ Environment="UMASK=<%= @umask %>"
 EnvironmentFile=-<%= @initconfig_path %>
 PIDFile=<%= @appdir %>/work/catalina.pid
 User=<%= @user %>
+Group=<%= @group %>
 ExecStart=<%= @appdir %>/bin/start-bamboo.sh
 ExecStop=<%= @appdir %>/bin/stop-bamboo.sh
 

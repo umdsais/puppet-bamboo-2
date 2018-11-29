@@ -1,10 +1,13 @@
-## 2018-11-15 - Release 3.5.0
+## 2018-11-29 - Release 3.5.0
 
 ### Summary
 
 - Fix issue where environment variables (HOME) were preserved from the login
   user (root) and not set to Bamboo's in the service init. (30d12a5)
 - Add `bamboo::umask` parameter to specify a custom UMASK.
+- Updates to tests
+- Bump default Bamboo version to 6.7.1
+- Adopt PDK
 
 ## 2016-12-21 - Release 3.4.1
 
