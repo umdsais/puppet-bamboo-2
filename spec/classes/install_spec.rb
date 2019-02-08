@@ -43,15 +43,8 @@ describe 'bamboo' do
           end
 
           it do
-            is_expected.to contain_staging__file('atlassian-bamboo-6.7.1.tar.gz').with(
+            is_expected.to contain_archive('/tmp/atlassian-bamboo-6.7.1.tar.gz').with(
               source: 'https://www.atlassian.com/software/bamboo/downloads/binary/atlassian-bamboo-6.7.1.tar.gz',
-              timeout: '1800',
-            )
-          end
-
-          it do
-            is_expected.to contain_staging__extract('atlassian-bamboo-6.7.1.tar.gz').with(
-              target: '/usr/local/bamboo/atlassian-bamboo-6.7.1',
               creates: '/usr/local/bamboo/atlassian-bamboo-6.7.1/conf',
               user: 'bamboo',
               group: 'bamboo',
