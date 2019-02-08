@@ -48,6 +48,7 @@ class bamboo (
   $create_facter_dir  = true,
   $stop_command       = $bamboo::params::stop_command,
   $umask              = undef,
+  $proxy_server       = undef,
 ) inherits bamboo::params {
 
   validate_re($version, ['^\d+\.\d+\.\d+$', '^\d+\.\d+\.\d+\.\d+$'])

@@ -16,6 +16,7 @@ class bamboo::install (
   $manage_installdir  = $bamboo::manage_installdir,
   $manage_appdir      = $bamboo::manage_appdir,
   $stop_command       = $bamboo::stop_command,
+  $proxy_server       = $bamboo::proxy_server,
 ) {
 
   $file    = "atlassian-bamboo-${version}.${extension}"
@@ -55,7 +56,7 @@ class bamboo::install (
       ensure => 'directory',
       owner  => $user,
       group  => $group,
-      before => Staging::File[$file],
+      before => Archive[$file],
     }
   }
 
@@ -64,11 +65,6 @@ class bamboo::install (
     owner  => $user,
     group  => $group,
     mode   => '0750',
-  }
-
-  staging::file { $file:
-    source  => "${download_url}/${file}",
-    timeout => '1800',
   }
 
   #
@@ -81,19 +77,30 @@ class bamboo::install (
       notify { "Updating Bamboo from version ${::bamboo_version} to ${::bamboo::version}": }
       exec { $stop_command:
         path    => $::path,
-        require => Staging::File[$file],
-        before  => Staging::Extract[$file],
+        require => Archive[$file],
+        before  => Archive[$file],
       }
     }
   }
 
-  staging::extract { $file:
-    target  => $appdir,
-    creates => "${appdir}/conf",
-    strip   => 1,
-    user    => $user,
-    group   => $group,
-    require => Staging::File[$file],
+  archive { $file:
+    source          => "${download_url}/${file}",
+    path            => "/tmp/$file",
+    extract         => true,
+    extract_command => 'tar xzf %s --strip-components=1',
+    extract_path    => $appdir,
+    cleanup         => true,
+    proxy_server    => $proxy_server,
+    allow_insecure  => true,
+    creates         => "${app_dir}/conf",
+    user            => $user,
+    group           => $group,
+    require         =>
+      $manage_appdir ? {
+        true    => File[$app_dir],
+        default => undef
+      }
+    ,
   }
 
   file { "${homedir}/logs":
