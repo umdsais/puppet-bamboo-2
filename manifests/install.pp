@@ -92,12 +92,12 @@ class bamboo::install (
     cleanup         => true,
     proxy_server    => $proxy_server,
     allow_insecure  => true,
-    creates         => "${app_dir}/conf",
+    creates         => "${appdir}/conf",
     user            => $user,
     group           => $group,
     require         =>
       $manage_appdir ? {
-        true    => File[$app_dir],
+        true    => File[$appdir],
         default => undef
       }
     ,
