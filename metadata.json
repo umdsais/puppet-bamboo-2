@@ -1,6 +1,6 @@
 {
   "name": "joshbeard-bamboo",
-  "version": "3.5.0",
+  "version": "3.5.1",
   "author": "joshbeard",
   "summary": "Manages the installation of Atlassian Bamboo",
   "license": "Apache-2.0",
@@ -10,11 +10,11 @@
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",
-      "version_requirement": ">= 4.6.0 <5.0.0"
+      "version_requirement": ">= 4.6.0 <6.0.0"
     },
     {
       "name": "puppet-staging",
-      "version_requirement": ">= 1.0.6 <3.0.0"
+      "version_requirement": ">= 1.0.6 <4.0.0"
     }
   ],
   "operatingsystem_support": [

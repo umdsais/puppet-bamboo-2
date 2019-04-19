@@ -1,3 +1,9 @@
+## 2019-04-19 - Release 3.5.1
+
+### Summary
+
+- Fix an issue with Bamboo > 6.8.0 in managing the Tomcat server connector proxy settings (PR #23)
+
 ## 2018-11-29 - Release 3.5.0
 
 ### Summary
