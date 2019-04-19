@@ -50,7 +50,7 @@ RSpec.configure do |c|
         end
 
         if fact_on(host, 'operatingsystemmajrelease') == '8'
-          on host, 'echo "deb http://ftp.debian.org/debian jessie-backports main" >> /etc/apt/sources.list'
+          on host, 'echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main" >> /etc/apt/sources.list'
         end
 
         on host, 'apt-get update'
