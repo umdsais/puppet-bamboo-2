@@ -93,9 +93,9 @@ describe 'bamboo' do
                 "set Server/Service/Connector/#attribute/connectionTimeout '30000'",
                 "set Server/Service/Connector/#attribute/port '9090'",
                 "set Server/Service/Connector/#attribute/acceptCount '200'",
-                "set Server/Service/Connector/#attribute/scheme 'https'",
-                "set Server/Service/Connector/#attribute/proxyName 'bamboo.example.com'",
-                "set Server/Service/Connector/#attribute/proxyPort '443'",
+                "set Server/Service/Connector[#attribute/protocol = \"HTTP/1.1\"]/#attribute/scheme 'https'",
+                "set Server/Service/Connector[#attribute/protocol = \"HTTP/1.1\"]/#attribute/proxyName 'bamboo.example.com'",
+                "set Server/Service/Connector[#attribute/protocol = \"HTTP/1.1\"]/#attribute/proxyPort '443'",
               ],
             )
           end
