@@ -397,12 +397,18 @@ Default: 'https://www.atlassian.com/software/bamboo/downloads/binary'
 The base url to download Bamboo from.  This should be the URL _up to_ the
 actual filename.  The default downloads from Atlassian's site.
 
-##### `download_proxy_server`
+##### `proxy_server`
 
 Default: undef
 
-Proxy information to be used when downloading the Bamboo archive from behind a
-proxy.
+Specify a proxy server to use on the `archive` resource for downloading Bamboo, with port number
+if needed. (e.g. https://example.com:8080)
+
+##### `proxy_server_type`
+
+Default: undef
+
+Proxy server type (none|http|https|ftp) to use on the `archive` resource for downloading Bamboo.
 
 ##### `manage_service`
 

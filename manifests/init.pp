@@ -48,7 +48,8 @@ class bamboo (
   $create_facter_dir     = true,
   $stop_command          = $bamboo::params::stop_command,
   $umask                 = undef,
-  $download_proxy_server = undef,
+  $proxy_server          = undef,
+  $proxy_type            = undef,
 ) inherits bamboo::params {
 
   validate_re($version, ['^\d+\.\d+\.\d+$', '^\d+\.\d+\.\d+\.\d+$'])
@@ -66,6 +67,14 @@ class bamboo (
   validate_hash($proxy)
   validate_bool($manage_user)
   validate_bool($manage_group)
+
+  if !empty($proxy_server) {
+    validate_string($proxy_server)
+  }
+
+  if !empty($proxy_type) {
+    validate_string($proxy_type)
+  }
 
   validate_re($user, '^[a-z_][a-z0-9_-]*[$]?$')
   validate_re($group, '^[a-z_][a-z0-9_-]*[$]?$')
