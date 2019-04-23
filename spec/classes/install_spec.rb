@@ -43,7 +43,7 @@ describe 'bamboo' do
           end
 
           it do
-            is_expected.to contain_archive('/tmp/atlassian-bamboo-6.7.1.tar.gz').with(
+            is_expected.to contain_archive('atlassian-bamboo-6.7.1.tar.gz').with(
               source: 'https://www.atlassian.com/software/bamboo/downloads/binary/atlassian-bamboo-6.7.1.tar.gz',
               creates: '/usr/local/bamboo/atlassian-bamboo-6.7.1/conf',
               user: 'bamboo',

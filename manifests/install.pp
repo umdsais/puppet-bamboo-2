@@ -85,7 +85,7 @@ class bamboo::install (
 
   archive { $file:
     source          => "${download_url}/${file}",
-    path            => "/tmp/$file",
+    path            => "/tmp/${file}",
     extract         => true,
     extract_command => 'tar xzf %s --strip-components=1',
     extract_path    => $appdir,
@@ -95,12 +95,6 @@ class bamboo::install (
     creates         => "${appdir}/conf",
     user            => $user,
     group           => $group,
-    require         =>
-      $manage_appdir ? {
-        true    => File[$appdir],
-        default => undef
-      }
-    ,
   }
 
   file { "${homedir}/logs":
