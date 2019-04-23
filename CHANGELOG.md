@@ -1,3 +1,10 @@
+## 2019-04-23 - Release 3.6.0
+
+### Summary
+
+- Use the archive module instead of the staging module (@bt-lemery PR #21)
+- Refresh systemd if service file changes
+
 ## 2019-04-19 - Release 3.5.1
 
 ### Summary
