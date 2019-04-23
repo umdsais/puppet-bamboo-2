@@ -6,10 +6,12 @@ class bamboo::params {
       if $::operatingsystemmajrelease == '7' {
         $service_file     = '/usr/lib/systemd/system/bamboo.service'
         $service_template = 'bamboo/bamboo.service.erb'
+        $service_provider = 'systemd'
       }
       elsif $::operatingsystemmajrelease == '6' or $::operatingsystem == 'Amazon'{
         $service_file     = '/etc/init.d/bamboo'
         $service_template = 'bamboo/bamboo.init.erb'
+        $service_provider = undef
       }
       else {
         fail("${::osfamily} ${::operatingsystemmajrelease} not supported.")
@@ -23,23 +25,28 @@ class bamboo::params {
           if versioncmp($::operatingsystemmajrelease, '16') >= 0 {
             $service_file     = '/lib/systemd/system/bamboo.service'
             $service_template = 'bamboo/bamboo.service.erb'
+            $service_provider = 'systemd'
           }
           else {
             $service_file     = '/etc/init.d/bamboo'
             $service_template = 'bamboo/bamboo.init.erb'
+            $service_provider = undef
           }
         }
         'Debian': {
           if versioncmp($::operatingsystemmajrelease, '8') == 0 {
             $service_file     = '/lib/systemd/system/bamboo.service'
             $service_template = 'bamboo/bamboo.service.erb'
+            $service_provider = 'systemd'
           } elsif versioncmp($::operatingsystemmajrelease, '9') >= 0 {
             $service_file     = '/etc/systemd/system/bamboo.service'
             $service_template = 'bamboo/bamboo.service.erb'
+            $service_provider = 'systemd'
           }
           else {
             $service_file     = '/etc/init.d/bamboo'
             $service_template = 'bamboo/bamboo.init.erb'
+            $service_provider = undef
           }
         }
         default: {

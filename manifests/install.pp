@@ -68,22 +68,6 @@ class bamboo::install (
     mode   => '0750',
   }
 
-  #
-  # If the 'bamboo_version' fact is defined (as provided by this module),
-  # compare it to the specified version.  If it doesn't match, stop the
-  # bamboo service prior to upgrading but after downloading the new version
-  #
-  if defined('$::bamboo_version') {
-    if versioncmp($::bamboo::version, $::bamboo_version) > 0 {
-      notify { "Updating Bamboo from version ${::bamboo_version} to ${::bamboo::version}": }
-      exec { $stop_command:
-        path    => $::path,
-        require => Archive[$file],
-        before  => Archive[$file],
-      }
-    }
-  }
-
   archive { $file:
     source          => "${download_url}/${file}",
     path            => "/tmp/${file}",
@@ -97,6 +81,21 @@ class bamboo::install (
     creates         => "${appdir}/conf",
     user            => $user,
     group           => $group,
+  }
+
+  #
+  # If the 'bamboo_version' fact is defined (as provided by this module),
+  # compare it to the specified version.  If it doesn't match, stop the
+  # bamboo service prior to upgrading but after downloading the new version
+  #
+  if defined('$::bamboo_version') {
+    if versioncmp($::bamboo::version, $::bamboo_version) > 0 {
+      notify { "Updating Bamboo from version ${::bamboo_version} to ${::bamboo::version}": }
+      exec { $stop_command:
+        path    => $::path,
+        require => Archive[$file],
+      }
+    }
   }
 
   file { "${homedir}/logs":

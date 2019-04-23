@@ -52,6 +52,8 @@ class bamboo (
   $proxy_type            = undef,
 ) inherits bamboo::params {
 
+  $service_provider      = $bamboo::params::service_provider
+
   validate_re($version, ['^\d+\.\d+\.\d+$', '^\d+\.\d+\.\d+\.\d+$'])
   validate_re($extension, '^(tar\.gz|\.zip)$')
   validate_absolute_path($installdir)

@@ -10,6 +10,7 @@ class bamboo::service (
   $service_enable      = $bamboo::service_enable,
   $service_file        = $bamboo::service_file,
   $service_template    = $bamboo::service_template,
+  $service_provider    = $bamboo::service_provider,
   $shutdown_wait       = $bamboo::shutdown_wait,
   $initconfig_manage   = $bamboo::initconfig_manage,
   $initconfig_path     = $bamboo::initconfig_path,
@@ -40,6 +41,16 @@ class bamboo::service (
   }
 
   if $manage_service {
+    if $service_provider == 'systemd' {
+      exec { 'bamboo-refresh_systemd':
+        command     => 'systemctl daemon-reload',
+        refreshonly => true,
+        path        => '/bin:/sbin:/usr/bin:/usr/sbin',
+        subscribe   => File[$service_file],
+        before      => Service['bamboo'],
+      }
+    }
+
     service { 'bamboo':
       ensure    => $service_ensure,
       enable    => $service_enable,
