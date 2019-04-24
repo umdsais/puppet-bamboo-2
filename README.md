@@ -45,8 +45,10 @@ This module tries to follow conventions in the
 
 ## Prerequisites
 
-* puppet/staging: [http://forge.puppetlabs.com/puppet/staging](http://forge.puppetlabs.com/puppet/staging)
-* A Java installation (e.g. via [puppetlabs/java](http://forge.puppetlabs.com/puppetlabs/java))
+* puppetlabs/augeas_core: [https://forge.puppet.com/puppetlabs/augeas_core](https://forge.puppet.com/puppetlabs/augeas_core)
+* puppet/archive: [https://forge.puppetlabs.com/puppet/archive](https://forge.puppetlabs.com/puppet/archive)
+* puppetlabs/stdlib: [https://forge.puppet.com/puppetlabs/stdlib](https://forge.puppet.com/puppetlabs/stdlib)
+* A Java installation (e.g. via [puppetlabs/java](https://forge.puppetlabs.com/puppetlabs/java))
 
 Consult the [Atlassian Bamboo documentation](https://confluence.atlassian.com/bamboo/bamboo-documentation-home-289276551.html)
 for specific system requirements for your platform and version.  This module
@@ -542,7 +544,7 @@ declare these directly.
 
 ### Bamboo Configuration
 
-This module does not manage the initial setup of Bamboo - the steps that are
+This module does not manage the initial set up of Bamboo - the steps that are
 done via the web interface once installed and running.  This doesn't _appear_
 to be easily managed automatically.  This includes database configuration and
 the license.  Ultimately, this configuration is placed in
@@ -550,9 +552,9 @@ the license.  Ultimately, this configuration is placed in
 
 ## Development and Contributing
 
-Please feel free to raise any issues here for bug fixes and feature requests.
+Please submit a ticket for any issues, bug fixes, questions, and feature requests.
 
-Pull requests with passing tests and updated tests are appreciated.
+Pull requests with passing tests and updated tests are appreciated. Please add yourself to the `CONTRIBUTORS` file and update the `README` for documentation if appropriate.
 
 [Travis CI](https://travis-ci.org/joshbeard/puppet-bamboo) is used for testing.
 
@@ -563,16 +565,21 @@ Install the dependencies:
 bundle install
 ```
 
+To see what's available:
+```shell
+bundle exec rake -T
+```
+
 Syntax validation, lint, and spec tests:
 
 ```shell
-bundle exec rake test
+bundle exec rake validate
 ```
 
 Unit tests:
 
 ```shell
-bundle exec rake spec
+bundle exec rake parallel_spec
 ```
 
 Syntax validation:
@@ -587,15 +594,75 @@ Puppet Lint:
 bundle exec rake lint
 ```
 
-Acceptance tests:
+Acceptance tests (beaker):
 
 ```shell
+# By default, this will test against CentOS 7 in a Docker container
+bundle exec rake beaker:default
+```
+
+Other Beaker tests:
+```shell
+# Test against centos-6 using Docker
+PUPPET_INSTALL_TYPE=agent \
+BEAKER_debug=true \
+BEAKER_PUPPET_COLLECTION=puppet6 \
+BEAKER_TESTMODE=apply \
+BEAKER_set=docker/centos-6 \
+bundle exec rake beaker
+
+# Test against centos-7 using Docker
+PUPPET_INSTALL_TYPE=agent \
+BEAKER_debug=true \
+BEAKER_PUPPET_COLLECTION=puppet6 \
+BEAKER_TESTMODE=apply \
+BEAKER_set=docker/centos-7 \
+bundle exec rake beaker
+
+# Test against debian-8 using Docker
+PUPPET_INSTALL_TYPE=agent \
+BEAKER_debug=true \
+BEAKER_PUPPET_COLLECTION=puppet6 \
+BEAKER_TESTMODE=apply \
+BEAKER_set=docker/debian-8 \
+bundle exec rake beaker
+
+# Test against debian-9 using Docker
+PUPPET_INSTALL_TYPE=agent \
+BEAKER_debug=true \
+BEAKER_PUPPET_COLLECTION=puppet6 \
+BEAKER_TESTMODE=apply \
+BEAKER_set=docker/debian-9 \
+bundle exec rake beaker
+
+# Test against ubuntu-14.04 using Docker
+PUPPET_INSTALL_TYPE=agent \
+BEAKER_debug=true \
+BEAKER_PUPPET_COLLECTION=puppet6 \
+BEAKER_TESTMODE=apply \
+BEAKER_set=docker/ubuntu-14.04 \
+bundle exec rake beaker
+
+# Test against ubuntu-16.04 using Docker
+PUPPET_INSTALL_TYPE=agent \
+BEAKER_debug=true \
+BEAKER_PUPPET_COLLECTION=puppet6 \
+BEAKER_TESTMODE=apply \
+BEAKER_set=docker/ubuntu-16.04 \
+bundle exec rake beaker
+
+# Test against ubuntu-18.04 using Docker
+PUPPET_INSTALL_TYPE=agent \
+BEAKER_debug=true \
+BEAKER_PUPPET_COLLECTION=puppet6 \
+BEAKER_TESTMODE=apply \
+BEAKER_set=docker/ubuntu-18.04 \
 bundle exec rake beaker
 ```
 
 You can set the `BAMBOO_DOWNLOAD_URL` and `BAMBOO_VERSION` environment
 variables for setting the corresponding `::bamboo` class parameters for the
-beaker-rspec tests.
+beaker tests.
 
 
 ## Authors and Contributors
