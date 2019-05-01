@@ -1,3 +1,11 @@
+## 2019-XX-XX - Release 4.0.0
+
+### Breaking Changes
+
+- Requires Puppet xx
+- Requires Stdlib xx
+
+
 ## 2019-04-23 - Release 3.6.0
 
 ### Summary

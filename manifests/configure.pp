@@ -1,25 +1,10 @@
-class bamboo::configure (
-  $version            = $bamboo::version,
-  $appdir             = $bamboo::real_appdir,
-  $homedir            = $bamboo::homedir,
-  $user               = $bamboo::user,
-  $group              = $bamboo::group,
-  $java_home          = $bamboo::java_home,
-  $jvm_xmx            = $bamboo::jvm_xmx,
-  $jvm_xms            = $bamboo::jvm_xms,
-  $jvm_permgen        = $bamboo::jvm_permgen,
-  $jvm_opts           = $bamboo::jvm_opts,
-  $jvm_optional       = $bamboo::jvm_optional,
-  $context_path       = $bamboo::context_path,
-  $tomcat_port        = $bamboo::tomcat_port,
-  $max_threads        = $bamboo::max_threads,
-  $min_spare_threads  = $bamboo::min_spare_threads,
-  $connection_timeout = $bamboo::connection_timeout,
-  $proxy              = $bamboo::proxy,
-  $accept_count       = $bamboo::accept_count,
-) {
+# Private class to manage Bamboo's configuration
+#
+class bamboo::configure {
 
-  file { "${appdir}/bin/setenv.sh":
+  assert_private()
+
+  file { "${bamboo::real_appdir}/bin/setenv.sh":
     ensure  => 'file',
     owner   => $user,
     group   => $group,
@@ -27,24 +12,24 @@ class bamboo::configure (
     content => template('bamboo/setenv.sh.erb'),
   }
 
-  file { "${appdir}/atlassian-bamboo/WEB-INF/classes/bamboo-init.properties":
+  file { "${bamboo::real_appdir}/atlassian-bamboo/WEB-INF/classes/bamboo-init.properties":
     ensure  => 'file',
-    owner   => $user,
-    group   => $group,
-    content => "bamboo.home=${homedir}",
+    owner   => $bamboo::user,
+    group   => $bamboo::group,
+    content => "bamboo.home=${bamboo::homedir}",
   }
 
   $changes = [
-    "set Server/Service[#attribute/name='Catalina']/Engine/Host/Context/#attribute/path '${context_path}'",
-    "set Server/Service/Connector/#attribute/maxThreads '${max_threads}'",
-    "set Server/Service/Connector/#attribute/minSpareThreads '${min_spare_threads}'",
-    "set Server/Service/Connector/#attribute/connectionTimeout '${connection_timeout}'",
-    "set Server/Service/Connector/#attribute/port '${tomcat_port}'",
-    "set Server/Service/Connector/#attribute/acceptCount '${accept_count}'",
+    "set Server/Service[#attribute/name='Catalina']/Engine/Host/Context/#attribute/path '${bamboo::context_path}'",
+    "set Server/Service/Connector/#attribute/maxThreads '${bamboo::max_threads}'",
+    "set Server/Service/Connector/#attribute/minSpareThreads '${bamboo::min_spare_threads}'",
+    "set Server/Service/Connector/#attribute/connectionTimeout '${bamboo::connection_timeout}'",
+    "set Server/Service/Connector/#attribute/port '${bamboo::tomcat_port}'",
+    "set Server/Service/Connector/#attribute/acceptCount '${bamboo::accept_count}'",
   ]
 
-  if !empty($proxy) {
-    $_proxy   = suffix(prefix(join_keys_to_values($proxy, " '"), 'set Server/Service/Connector[#attribute/protocol = "HTTP/1.1"]/#attribute/'), "'")
+  if !empty($bamboo::proxy) {
+    $_proxy   = suffix(prefix(join_keys_to_values($bamboo::proxy, " '"), 'set Server/Service/Connector[#attribute/protocol = "HTTP/1.1"]/#attribute/'), "'")
     $_changes = concat($changes, $_proxy)
   }
   else {
@@ -52,9 +37,9 @@ class bamboo::configure (
     $_changes = $changes
   }
 
-  augeas { "${appdir}/conf/server.xml":
+  augeas { "${bamboo::real_appdir}/conf/server.xml":
     lens    => 'Xml.lns',
-    incl    => "${appdir}/conf/server.xml",
+    incl    => "${bamboo::real_appdir}/conf/server.xml",
     changes => $_changes,
   }
 

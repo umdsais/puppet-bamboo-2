@@ -52,7 +52,7 @@ describe 'bamboo class' do
 				java_home    => $java_home,
         download_url => $download_url,
         version      => $version,
-        umask        => '0022',
+        umask        => 0022,
 			}
       EOS
 
