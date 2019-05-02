@@ -13,15 +13,15 @@
 ### END INIT INFO
 ACTION=$1
 SERVICE=bamboo
-USER=<%= @user %>
-SHELL=<%= @shell %>
-export JAVA_HOME=<%= @java_home %>
-export CATALINA_HOME=<%= @appdir %>
-export UMASK=<%= @umask %>
-SHUTDOWN_WAIT=<%= @shutdown_wait %>
+USER=<%= scope['bamboo::user'] %>
+SHELL=<%= scope['bamboo::shell'] %>
+export JAVA_HOME=<%= scope['bamboo::java_home'] %>
+export CATALINA_HOME=<%= scope['bamboo::real_appdir'] %>
+export UMASK=<%= scope['bamboo::umask'] %>
+SHUTDOWN_WAIT=<%= scope['bamboo::shutdown_wait'] %>
 
-if [ -f "<%= @initconfig_path %>" ]; then
-  . "<%= @initconfig_path %>"
+if [ -f "<%= scope['bamboo::initconfig_path'] %>" ]; then
+  . "<%= scope['bamboo::initconfig_path'] %>"
 fi
 
 function restart() {
@@ -42,7 +42,7 @@ function stop() {
   pid=$(bamboo_pid)
   if [ -n "$pid" ]; then
     echo -n $"Stopping down $SERVICE: "
-    /bin/su -s $SHELL $USER -c "<%= @appdir %>/bin/stop-bamboo.sh"
+    /bin/su -s $SHELL $USER -c "${CATALINA_HOME}/bin/stop-bamboo.sh"
 
     echo -n "Waiting ${SHUTDOWN_WAIT} seconds for processes to exit "
     let kwait=$SHUTDOWN_WAIT
@@ -73,7 +73,7 @@ function start() {
     exit 1
   else
     echo -n $"Starting $SERVICE: "
-    /bin/su -s $SHELL $USER -c "<%= @appdir %>/bin/start-bamboo.sh"
+    /bin/su -s $SHELL $USER -c "${CATALINA_HOME}/bin/start-bamboo.sh"
     RETVAL=$?
     echo
     return $RETVAL

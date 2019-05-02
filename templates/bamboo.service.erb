@@ -4,14 +4,14 @@ After=syslog.target network.target
 
 [Service]
 Type=forking
-Environment="JAVA_HOME=<%= @java_home %>"
-Environment="UMASK=<%= @umask %>"
-EnvironmentFile=-<%= @initconfig_path %>
-PIDFile=<%= @appdir %>/work/catalina.pid
-User=<%= @user %>
-Group=<%= @group %>
-ExecStart=<%= @appdir %>/bin/start-bamboo.sh
-ExecStop=<%= @appdir %>/bin/stop-bamboo.sh
+Environment="JAVA_HOME=<%= scope['bamboo::java_home'] %>"
+Environment="UMASK=<%= scope['bamboo::umask'] %>"
+EnvironmentFile=-<%= scope['bamboo::initconfig_path'] %>
+PIDFile=<%= scope['bamboo::real_appdir'] %>/work/catalina.pid
+User=<%= scope['bamboo::user'] %>
+Group=<%= scope['bamboo::group'] %>
+ExecStart=<%= scope['bamboo::real_appdir'] %>/bin/start-bamboo.sh
+ExecStop=<%= scope['bamboo::real_appdir'] %>/bin/stop-bamboo.sh
 
 [Install]
 WantedBy=multi-user.target
