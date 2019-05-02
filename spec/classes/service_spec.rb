@@ -60,7 +60,7 @@ describe 'bamboo' do
           context 'bamboo::service class with custom umask' do
             let(:params) do
               {
-                umask: '0022',
+                umask: 0022,
               }
             end
 

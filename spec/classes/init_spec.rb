@@ -17,21 +17,18 @@ describe 'bamboo' do
         context 'default parameters' do
           let(:params) { {} }
 
-          it { is_expected.to contain_anchor('bamboo::start').that_comes_before('Class[bamboo::install]') }
           it { is_expected.to contain_class('bamboo') }
           it { is_expected.to contain_class('bamboo::params') }
           it { is_expected.to contain_class('bamboo::install').that_comes_before('Class[bamboo::facts]') }
           it { is_expected.to contain_class('bamboo::facts').that_comes_before('Class[bamboo::configure]') }
           it { is_expected.to contain_class('bamboo::configure').that_notifies('Class[bamboo::service]') }
-          it { is_expected.to contain_class('bamboo::service').that_comes_before('Anchor[bamboo::end]') }
-          it { is_expected.to contain_anchor('bamboo::end') }
         end
 
         context 'invalid parameters' do
           context 'version' do
             let(:params) { { version: 'invalid' } }
 
-            it { expect { catalogue }.to raise_error(Puppet::Error, %r{does not match}) }
+            it { expect { catalogue }.to raise_error(Puppet::PreformattedError, %r{parameter 'version' expects a match}) }
           end
 
           context 'extension' do
@@ -55,7 +52,7 @@ describe 'bamboo' do
           context 'context_path' do
             let(:params) { { context_path: ['invalid'] } }
 
-            it { expect { catalogue }.to raise_error(Puppet::Error, %r{not a string}) }
+            it { expect { catalogue }.to raise_error(Puppet::PreformattedError, %r{parameter 'context_path' expects a String}) }
           end
 
           context 'tomcat_port' do
@@ -133,7 +130,7 @@ describe 'bamboo' do
           context 'password' do
             let(:params) { { password: ['yeah, should be string'] } }
 
-            it { expect { catalogue }.to raise_error(Puppet::Error, %r{not a string}) }
+            it { expect { catalogue }.to raise_error(Puppet::PreformattedError, %r{parameter 'password' expects a String value}) }
           end
 
           context 'shell' do

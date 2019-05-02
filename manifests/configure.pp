@@ -6,8 +6,8 @@ class bamboo::configure {
 
   file { "${bamboo::real_appdir}/bin/setenv.sh":
     ensure  => 'file',
-    owner   => $user,
-    group   => $group,
+    owner   => $bamboo::user,
+    group   => $bamboo::group,
     mode    => '0755',
     content => template('bamboo/setenv.sh.erb'),
   }
