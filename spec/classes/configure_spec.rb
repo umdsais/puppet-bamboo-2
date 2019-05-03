@@ -12,39 +12,39 @@ describe 'bamboo' do
           let(:params) { {} }
 
           it do
-            is_expected.to contain_file('/usr/local/bamboo/atlassian-bamboo-6.7.1/bin/setenv.sh')
+            is_expected.to contain_file("/usr/local/bamboo/atlassian-bamboo-#{BAMBOO_VERSION}/bin/setenv.sh")
               .with_owner('bamboo')
               .with_group('bamboo')
               .with_content(%r{^BAMBOO_HOME="\/var\/local\/bamboo"$})
           end
 
           it do
-            is_expected.to contain_file('/usr/local/bamboo/atlassian-bamboo-6.7.1/bin/setenv.sh')
+            is_expected.to contain_file("/usr/local/bamboo/atlassian-bamboo-#{BAMBOO_VERSION}/bin/setenv.sh")
               .with_content(%r{^JVM_SUPPORT_RECOMMENDED_ARGS=""$})
           end
 
           it do
-            is_expected.to contain_file('/usr/local/bamboo/atlassian-bamboo-6.7.1/bin/setenv.sh')
+            is_expected.to contain_file("/usr/local/bamboo/atlassian-bamboo-#{BAMBOO_VERSION}/bin/setenv.sh")
               .with_content(%r{^JVM_MINIMUM_MEMORY="256m"$})
           end
 
           it do
-            is_expected.to contain_file('/usr/local/bamboo/atlassian-bamboo-6.7.1/bin/setenv.sh')
+            is_expected.to contain_file("/usr/local/bamboo/atlassian-bamboo-#{BAMBOO_VERSION}/bin/setenv.sh")
               .with_content(%r{^JVM_MAXIMUM_MEMORY="1024m"$})
           end
 
           it do
-            is_expected.to contain_file('/usr/local/bamboo/atlassian-bamboo-6.7.1/bin/setenv.sh')
+            is_expected.to contain_file("/usr/local/bamboo/atlassian-bamboo-#{BAMBOO_VERSION}/bin/setenv.sh")
               .with_content(%r{^JAVA_OPTS=" -Xms\$\{JVM_MINIMUM_MEMORY\}.*"})
           end
 
           it do
-            is_expected.to contain_file('/usr/local/bamboo/atlassian-bamboo-6.7.1/atlassian-bamboo/WEB-INF/classes/bamboo-init.properties')
+            is_expected.to contain_file("/usr/local/bamboo/atlassian-bamboo-#{BAMBOO_VERSION}/atlassian-bamboo/WEB-INF/classes/bamboo-init.properties")
               .with_content(%r{^bamboo\.home=\/var\/local\/bamboo$})
           end
 
           it do
-            is_expected.to contain_augeas('/usr/local/bamboo/atlassian-bamboo-6.7.1/conf/server.xml').with(
+            is_expected.to contain_augeas("/usr/local/bamboo/atlassian-bamboo-#{BAMBOO_VERSION}/conf/server.xml").with(
               'changes' => [
                 "set Server/Service[#attribute/name='Catalina']/Engine/Host/Context/#attribute/path ''",
                 "set Server/Service/Connector/#attribute/maxThreads '150'",
@@ -64,7 +64,7 @@ describe 'bamboo' do
           end
 
           it do
-            is_expected.to contain_file('/usr/local/bamboo/atlassian-bamboo-6.7.1/bin/setenv.sh')
+            is_expected.to contain_file("/usr/local/bamboo/atlassian-bamboo-#{BAMBOO_VERSION}/bin/setenv.sh")
               .with_content(%r{^JAVA_OPTS="-Foo -Bar -Xms\$\{JVM_MINIMUM_MEMORY\}.*"})
           end
         end
@@ -85,7 +85,7 @@ describe 'bamboo' do
           end
 
           it do
-            is_expected.to contain_augeas('/usr/local/bamboo/atlassian-bamboo-6.7.1/conf/server.xml').with(
+            is_expected.to contain_augeas("/usr/local/bamboo/atlassian-bamboo-#{BAMBOO_VERSION}/conf/server.xml").with(
               'changes' => [
                 "set Server/Service[#attribute/name='Catalina']/Engine/Host/Context/#attribute/path ''",
                 "set Server/Service/Connector/#attribute/maxThreads '256'",

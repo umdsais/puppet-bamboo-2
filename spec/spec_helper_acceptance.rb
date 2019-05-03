@@ -4,6 +4,7 @@ require 'beaker-rspec/spec_helper'
 require 'beaker-rspec/helpers/serverspec'
 require 'beaker/puppet_install_helper'
 require 'beaker/module_install_helper'
+require 'spec_vars' if File.file?(File.join(File.dirname(__FILE__), 'spec_vars.rb'))
 
 run_puppet_install_helper
 configure_type_defaults_on(hosts)
@@ -11,10 +12,6 @@ install_ca_certs unless ENV['PUPPET_INSTALL_TYPE'] =~ %r{pe}i
 install_module_on(hosts)
 install_module_dependencies_on(hosts)
 
-# if these environment variables are set, pass them as class parameters for
-# our tests (e.g. use a locally hosted bamboo tarball)
-BAMBOO_DOWNLOAD_URL = ENV['BAMBOO_DOWNLOAD_URL'] || nil
-BAMBOO_VERSION = ENV['BAMBOO_VERSION'] || nil
 
 RSpec.configure do |c|
   # Project root

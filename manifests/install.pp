@@ -52,6 +52,13 @@ class bamboo::install {
     mode   => '0750',
   }
 
+  # If a value for `checksum` is specified, set `checksum_verify` on the `archive` module implicitly.
+  if $bamboo::checksum == undef {
+    $checksum_verify = false
+  } else {
+    $checksum_verify = true
+  }
+
   archive { $file:
     source          => "${bamboo::download_url}/${file}",
     path            => "/tmp/${file}",
@@ -65,7 +72,7 @@ class bamboo::install {
     creates         => "${bamboo::real_appdir}/conf",
     user            => $bamboo::user,
     group           => $bamboo::group,
-    checksum_verify => $bamboo::checksum_verify,
+    checksum_verify => $checksum_verify,
     checksum_type   => $bamboo::checksum_type,
     checksum        => $bamboo::checksum,
   }

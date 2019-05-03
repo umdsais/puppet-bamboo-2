@@ -38,13 +38,13 @@ describe 'bamboo' do
             if systemd == true
               it do
                 is_expected.to contain_file(systemd_file)
-                  .with_content(%r{^PIDFile=\/usr\/local\/bamboo\/atlassian-bamboo-6\.7\.1\/work\/catalina\.pid$})
+                  .with_content(%r{^PIDFile=\/usr\/local\/bamboo\/atlassian-bamboo-#{BAMBOO_VERSION}\/work\/catalina\.pid$})
                   .with_content(%r{^Environment="UMASK="$})
               end
             else
               it do
                 is_expected.to contain_file('/etc/init.d/bamboo')
-                  .with_content(%r{^export CATALINA_HOME=\/usr\/local\/bamboo\/atlassian-bamboo-6\.7\.1$})
+                  .with_content(%r{^export CATALINA_HOME=\/usr\/local\/bamboo\/atlassian-bamboo-#{BAMBOO_VERSION}$})
                   .with_content(%r{^export UMASK=$})
               end
             end
@@ -60,7 +60,7 @@ describe 'bamboo' do
           context 'bamboo::service class with custom umask' do
             let(:params) do
               {
-                umask: 0022,
+                umask: '0022',
               }
             end
 

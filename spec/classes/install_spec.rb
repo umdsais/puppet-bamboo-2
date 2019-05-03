@@ -36,16 +36,17 @@ describe 'bamboo' do
           end
 
           it do
-            is_expected.to contain_file('/usr/local/bamboo/atlassian-bamboo-6.7.1').with(
+            is_expected.to contain_file("/usr/local/bamboo/atlassian-bamboo-#{BAMBOO_VERSION}").with(
               owner: 'bamboo',
               group: 'bamboo',
             )
           end
 
           it do
-            is_expected.to contain_archive('atlassian-bamboo-6.7.1.tar.gz').with(
-              source: 'https://www.atlassian.com/software/bamboo/downloads/binary/atlassian-bamboo-6.7.1.tar.gz',
-              creates: '/usr/local/bamboo/atlassian-bamboo-6.7.1/conf',
+            is_expected.to contain_archive("atlassian-bamboo-#{BAMBOO_VERSION}.tar.gz").with(
+              source: "https://www.atlassian.com/software/bamboo/downloads/binary/atlassian-bamboo-#{BAMBOO_VERSION}.tar.gz",
+              creates: "/usr/local/bamboo/atlassian-bamboo-#{BAMBOO_VERSION}/conf",
+              path: "/tmp/atlassian-bamboo-#{BAMBOO_VERSION}.tar.gz",
               user: 'bamboo',
               group: 'bamboo',
             )
@@ -59,8 +60,8 @@ describe 'bamboo' do
           end
 
           it do
-            is_expected.to contain_exec('chown_/usr/local/bamboo/atlassian-bamboo-6.7.1').with(
-              command: 'chown -R bamboo:bamboo /usr/local/bamboo/atlassian-bamboo-6.7.1',
+            is_expected.to contain_exec("chown_/usr/local/bamboo/atlassian-bamboo-#{BAMBOO_VERSION}").with(
+              command: "chown -R bamboo:bamboo /usr/local/bamboo/atlassian-bamboo-#{BAMBOO_VERSION}",
             )
           end
         end
