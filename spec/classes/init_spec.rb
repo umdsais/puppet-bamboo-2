@@ -60,7 +60,7 @@ describe 'bamboo' do
 
             it { expect { catalogue }.to raise_error(Puppet::PreformattedError, %r{got 'notabsolute'}) }
           end
-  
+
           context 'homedir' do
             let(:params) { { homedir: 'aint_valid' } }
 
@@ -252,7 +252,7 @@ describe 'bamboo' do
 
             it { expect { catalogue }.to raise_error(Puppet::PreformattedError, %r{expects a value of type Undef or String, got Hash}) }
           end
-  
+
           context 'facts_ensure' do
             let(:params) { { facts_ensure: 'nothanks' } }
 
