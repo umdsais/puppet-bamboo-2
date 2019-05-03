@@ -284,7 +284,7 @@ describe 'bamboo' do
           end
 
           context 'umask as an integer' do
-            let(:params) { { umask: 0022 } }
+            let(:params) { { umask: 222 } }
 
             it { expect { catalogue }.to raise_error(Puppet::PreformattedError, %r{got Integer}) }
           end
