@@ -22,7 +22,7 @@ class bamboo::service {
     ensure  => 'file',
     owner   => 'root',
     group   => 'root',
-    mode    => '0755',
+    mode    => $bamboo::service_file_mode,
     content => template($bamboo::service_template),
   }
 

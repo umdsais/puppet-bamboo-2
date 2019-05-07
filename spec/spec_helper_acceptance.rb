@@ -45,11 +45,8 @@ RSpec.configure do |c|
           on host, 'add-apt-repository ppa:openjdk-r/ppa'
         end
 
-        if fact_on(host, 'operatingsystemmajrelease') == '8'
-          on host, 'echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main" >> /etc/apt/sources.list'
-        end
-
         on host, 'apt-get update'
+
       end
 
       on host, puppet('module', 'install', 'puppetlabs-stdlib'), acceptable_exit_codes: [0, 1]

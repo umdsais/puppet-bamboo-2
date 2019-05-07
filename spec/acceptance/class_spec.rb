@@ -24,15 +24,8 @@ describe 'bamboo class' do
       # Figure out how to install OpenJDK
       if $::osfamily == 'Debian' {
         $java_home = "/usr/lib/jvm/java-8-openjdk-${::architecture}"
-        if $::facts['operatingsystem'] == 'Ubuntu' {
-          $package = 'openjdk-8-jdk'
-          $package_options = undef
-        } else {
-          $package = 'openjdk-8-jdk'
-          if $::facts['operatingsystemmajrelease'] == '8' {
-            $package_options = [{'-t' => 'jessie-backports'}]
-          }
-        }
+        $package = 'openjdk-8-jdk'
+        $package_options = undef
       } elsif $::osfamily == 'RedHat' {
         $java_home = '/etc/alternatives/java_sdk'
         $package = 'java-1.8.0-openjdk-devel'

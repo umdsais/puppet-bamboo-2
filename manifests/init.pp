@@ -146,6 +146,10 @@
 #   The absolute path to where the init script or service file should be placed.
 #   Defaults depend on operating system. Refer to `params.pp`
 #
+# @param service_file_mode
+#   The file mode of the `service_file` (init script or systemd service file).
+#   Defaults depend on operating system. Refer to `params.pp`
+#
 # @param service_template
 #   Template for the init script/service definition.  The module includes an init
 #   script and systemd service configuration, but you can use your own if you'd
@@ -256,6 +260,7 @@ class bamboo (
   Stdlib::Ensure::Service                $service_ensure        = 'running',
   Boolean                                $service_enable        = true,
   Stdlib::Unixpath                       $service_file          = $bamboo::params::service_file,
+  Stdlib::Filemode                       $service_file_mode     = $bamboo::params::service_file_mode,
   Pattern[/^(\w+)\/([\/\.\w\s]+)$/]      $service_template      = $bamboo::params::service_template,
   Variant[Pattern[/^\d+$/],Integer]      $shutdown_wait         = 20,
   Boolean                                $initconfig_manage     = false,
