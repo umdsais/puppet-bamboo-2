@@ -21,11 +21,28 @@ describe 'bamboo class' do
         $version = undef
       }
 
+      # On Debian 9 and Ubuntu 18.04, we're just using the sysvinit, since there's issues with the systemd
+      # service in the Docker containers.
+      # Unfortunately, this doesn't really test real-world use of this module exactly.
+      if ( 
+        ($facts['operatingsystem'] == 'Ubuntu' and $facts['os']['release'] == '18.04')
+        or ($facts['operatingsystem'] == 'Debian' and $facts['os']['release'] == '9')
+      ) {
+        $service_file = '/etc/init.d/bamboo'
+        $service_template = 'bamboo/bamboo.init.erb'
+        $service_mode = '0755'
+      } else {
+        $service_file = undef
+        $service_template = undef
+        $service_mode = undef
+      }
+
       # Figure out how to install OpenJDK
       if $::osfamily == 'Debian' {
         $java_home = "/usr/lib/jvm/java-8-openjdk-${::architecture}"
         $package = 'openjdk-8-jdk'
         $package_options = undef
+
       } elsif $::osfamily == 'RedHat' {
         $java_home = '/etc/alternatives/java_sdk'
         $package = 'java-1.8.0-openjdk-devel'
@@ -42,10 +59,13 @@ describe 'bamboo class' do
       }
 
       class { 'bamboo':
-				java_home    => $java_home,
-        download_url => $download_url,
-        version      => $version,
-        umask        => '0022',
+				java_home         => $java_home,
+        download_url      => $download_url,
+        version           => $version,
+        umask             => '0022',
+        service_file      => $service_file,
+        service_template  => $service_template,
+        service_file_mode => $service_mode,
 			}
       EOS
 

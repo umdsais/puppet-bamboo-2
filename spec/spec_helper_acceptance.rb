@@ -36,9 +36,6 @@ RSpec.configure do |c|
       on host, '/bin/touch /etc/puppetlabs/code/hiera.yaml'
       on host, 'chmod 755 /root'
       if fact_on(host, 'osfamily') == 'Debian'
-        on host, "echo \"en_US ISO-8859-1\nen_NG.UTF-8 UTF-8\nen_US.UTF-8 UTF-8\n\" > /etc/locale.gen"
-        on host, '/usr/sbin/locale-gen'
-        on host, '/usr/sbin/update-locale'
         # Install sources for OpenJDK 8 on older distributions
         if fact_on(host, 'operatingsystem') == 'Ubuntu'
           on host, 'apt-get install -y software-properties-common'
