@@ -8,13 +8,13 @@ class bamboo::params {
       if $facts['operatingsystemmajrelease'] == '7' {
         $service_file      = '/usr/lib/systemd/system/bamboo.service'
         $service_template  = 'bamboo/bamboo.service.erb'
-        $service_provider  = 'systemd'
+        $reload_systemd    = true
         $service_file_mode = '0644'
       }
       elsif $facts['operatingsystemmajrelease'] == '6' or $facts['operatingsystem'] == 'Amazon'{
         $service_file      = '/etc/init.d/bamboo'
         $service_template  = 'bamboo/bamboo.init.erb'
-        $service_provider  = undef
+        $reload_systemd    = false
         $service_file_mode = '0755'
       }
       else {
@@ -29,13 +29,13 @@ class bamboo::params {
           if versioncmp($facts['operatingsystemmajrelease'], '16') >= 0 {
             $service_file      = '/lib/systemd/system/bamboo.service'
             $service_template  = 'bamboo/bamboo.service.erb'
-            $service_provider  = 'systemd'
+            $reload_systemd    = true
             $service_file_mode = '0644'
           }
           else {
             $service_file      = '/etc/init.d/bamboo'
             $service_template  = 'bamboo/bamboo.init.erb'
-            $service_provider  = undef
+            $reload_systemd    = false
             $service_file_mode = '0755'
           }
         }
@@ -43,18 +43,18 @@ class bamboo::params {
           if versioncmp($facts['operatingsystemmajrelease'], '8') == 0 {
             $service_file      = '/lib/systemd/system/bamboo.service'
             $service_template  = 'bamboo/bamboo.service.erb'
-            $service_provider  = 'systemd'
+            $reload_systemd    = true
             $service_file_mode = '0644'
           } elsif versioncmp($facts['operatingsystemmajrelease'], '9') >= 0 {
             $service_file      = '/etc/systemd/system/bamboo.service'
             $service_template  = 'bamboo/bamboo.service.erb'
-            $service_provider  = 'systemd'
+            $reload_systemd    = true
             $service_file_mode = '0644'
           }
           else {
             $service_file      = '/etc/init.d/bamboo'
             $service_template  = 'bamboo/bamboo.init.erb'
-            $service_provider  = undef
+            $reload_systemd    = false
             $service_file_mode = '0755'
           }
         }

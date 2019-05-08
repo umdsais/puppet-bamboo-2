@@ -156,7 +156,17 @@
 #   like.  This should refer to a Puppet module template. E.g.
 #   `modulename/bamboo.init.erb`
 #   Defaults depend on operating system. Refer to `params.pp`
-#   
+#
+# @param service_provider
+#   Specifies the provider to use on the Service resource if `manage_service=true`.
+#   Defaults to `undef` (using Puppet defaults)
+#
+# @param reload_systemd
+#   Toggles whether systemd should be reloaded via an Exec resource that executes `systemctl daemon-reload` if the service
+#   file changes.
+#   Only applies if `manage_service=true`
+#   Defaults to `true` on systems that use systemd. Refer to `params.pp` for defaults.
+#
 # @param shutdown_wait
 #   Specifies a value, in seconds, to wait for the service to stop in the init script.
 #   Does not apply to systems that use systemd.
@@ -262,6 +272,8 @@ class bamboo (
   Stdlib::Unixpath                       $service_file          = $bamboo::params::service_file,
   Stdlib::Filemode                       $service_file_mode     = $bamboo::params::service_file_mode,
   Pattern[/^(\w+)\/([\/\.\w\s]+)$/]      $service_template      = $bamboo::params::service_template,
+  Optional[String]                       $service_provider      = undef,
+  Boolean                                $reload_systemd        = $bamboo::params::reload_systemd,
   Variant[Pattern[/^\d+$/],Integer]      $shutdown_wait         = 20,
   Boolean                                $initconfig_manage     = false,
   Stdlib::Unixpath                       $initconfig_path       = $bamboo::params::initconfig_path,

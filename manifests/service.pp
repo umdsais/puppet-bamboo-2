@@ -27,7 +27,7 @@ class bamboo::service {
   }
 
   if $bamboo::manage_service {
-    if $bamboo::params::service_provider == 'systemd' {
+    if $bamboo::reload_systemd == 'systemd' {
       exec { 'bamboo-refresh_systemd':
         command     => 'systemctl daemon-reload',
         refreshonly => true,
@@ -40,6 +40,7 @@ class bamboo::service {
     service { 'bamboo':
       ensure    => $bamboo::service_ensure,
       enable    => $bamboo::service_enable,
+      provider  => $bamboo::service_provider,
       subscribe => File[$bamboo::service_file],
     }
   }
