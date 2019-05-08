@@ -45,7 +45,8 @@ class bamboo::params {
             $service_template  = 'bamboo/bamboo.service.erb'
             $reload_systemd    = true
             $service_file_mode = '0644'
-          } elsif versioncmp($facts['operatingsystemmajrelease'], '9') >= 0 {
+          }
+          elsif versioncmp($facts['operatingsystemmajrelease'], '9') >= 0 {
             $service_file      = '/etc/systemd/system/bamboo.service'
             $service_template  = 'bamboo/bamboo.service.erb'
             $reload_systemd    = true

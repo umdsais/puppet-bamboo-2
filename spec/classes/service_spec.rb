@@ -41,6 +41,10 @@ describe 'bamboo' do
                   .with_content(%r{^PIDFile=\/usr\/local\/bamboo\/atlassian-bamboo-#{BAMBOO_VERSION}\/work\/catalina\.pid$})
                   .with_content(%r{^Environment="UMASK="$})
               end
+
+              it do
+                is_expected.to contain_exec('bamboo-refresh_systemd')
+              end
             else
               it do
                 is_expected.to contain_file('/etc/init.d/bamboo')
