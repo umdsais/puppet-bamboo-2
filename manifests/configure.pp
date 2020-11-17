@@ -29,7 +29,13 @@ class bamboo::configure {
   ]
 
   if !empty($bamboo::proxy) {
-    $_proxy   = suffix(prefix(join_keys_to_values($bamboo::proxy, " '"), 'set Server/Service/Connector[#attribute/protocol = "HTTP/1.1"]/#attribute/'), "'")
+    $_proxy   = suffix(
+      prefix(
+        join_keys_to_values($bamboo::proxy, " '"),
+        'set Server/Service/Connector[#attribute/protocol = "HTTP/1.1"]/#attribute/'
+      ),
+      "'"
+    )
     $_changes = concat($changes, $_proxy)
   }
   else {

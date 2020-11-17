@@ -100,7 +100,8 @@ class bamboo::install {
 
   exec { "chown_${bamboo::real_appdir}":
     command => "chown -R ${bamboo::user}:${bamboo::group} ${bamboo::real_appdir}",
-    unless  => "find ${bamboo::real_appdir} ! -type l \\( ! -user ${bamboo::user} \\) -o \\( ! -group ${bamboo::group} \\) | wc -l | awk '{print \$1}' | grep -qE '^0'",
+    unless  => "find ${bamboo::real_appdir} ! -type l \\( ! -user ${bamboo::user} \\) \
+      -o \\( ! -group ${bamboo::group} \\) | wc -l | awk '{print \$1}' | grep -qE '^0'",
     path    => '/bin:/usr/bin',
   }
 

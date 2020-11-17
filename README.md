@@ -1,7 +1,6 @@
 # puppet-bamboo
 
-[![Puppet Forge](http://img.shields.io/puppetforge/v/joshbeard/bamboo.svg)](https://forge.puppetlabs.com/joshbeard/bamboo)
-[![Build Status](https://travis-ci.org/joshbeard/puppet-bamboo.svg?branch=master)](https://travis-ci.org/joshbeard/puppet-bamboo)
+[![Puppet Forge](http://img.shields.io/puppetforge/v/pest/bamboo.svg)](https://forge.puppetlabs.com/pest/bamboo)
 
 1. [Overview](#overview)
 2. [Prerequisites](#prerequisites)

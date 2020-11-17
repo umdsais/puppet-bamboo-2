@@ -28,7 +28,7 @@ describe 'bamboo' do
                   systemd = true
                   systemd_file = '/lib/systemd/system/bamboo.service'
                 end
-                if facts[:operatingsystemmajrelease].to_i == 9
+                if facts[:operatingsystemmajrelease].to_i >= 9
                   systemd = true
                   systemd_file = '/etc/systemd/system/bamboo.service'
                 end
