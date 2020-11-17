@@ -1,56 +1,66 @@
+# Private class to define default parameter values for Bamboo
+#
 class bamboo::params {
 
-  case $::osfamily {
+  case $facts['osfamily'] {
     'RedHat': {
       $initconfig_path = '/etc/sysconfig/bamboo'
-      if $::operatingsystemmajrelease == '7' {
-        $service_file     = '/usr/lib/systemd/system/bamboo.service'
-        $service_template = 'bamboo/bamboo.service.erb'
-        $service_provider = 'systemd'
+      if $facts['operatingsystemmajrelease'] == '7' {
+        $service_file      = '/usr/lib/systemd/system/bamboo.service'
+        $service_template  = 'bamboo/bamboo.service.erb'
+        $reload_systemd    = true
+        $service_file_mode = '0644'
       }
-      elsif $::operatingsystemmajrelease == '6' or $::operatingsystem == 'Amazon'{
-        $service_file     = '/etc/init.d/bamboo'
-        $service_template = 'bamboo/bamboo.init.erb'
-        $service_provider = undef
+      elsif $facts['operatingsystemmajrelease'] == '6' or $facts['operatingsystem'] == 'Amazon'{
+        $service_file      = '/etc/init.d/bamboo'
+        $service_template  = 'bamboo/bamboo.init.erb'
+        $reload_systemd    = false
+        $service_file_mode = '0755'
       }
       else {
-        fail("${::osfamily} ${::operatingsystemmajrelease} not supported.")
+        fail("${facts['osfamily']} ${facts['operatingsystemmajrelease']} not supported.")
       }
     }
 
     'Debian': {
       $initconfig_path  = '/etc/default/bamboo'
-      case $::operatingsystem {
+      case $facts['operatingsystem'] {
         'Ubuntu': {
-          if versioncmp($::operatingsystemmajrelease, '16') >= 0 {
-            $service_file     = '/lib/systemd/system/bamboo.service'
-            $service_template = 'bamboo/bamboo.service.erb'
-            $service_provider = 'systemd'
+          if versioncmp($facts['operatingsystemmajrelease'], '16') >= 0 {
+            $service_file      = '/lib/systemd/system/bamboo.service'
+            $service_template  = 'bamboo/bamboo.service.erb'
+            $reload_systemd    = true
+            $service_file_mode = '0644'
           }
           else {
-            $service_file     = '/etc/init.d/bamboo'
-            $service_template = 'bamboo/bamboo.init.erb'
-            $service_provider = undef
+            $service_file      = '/etc/init.d/bamboo'
+            $service_template  = 'bamboo/bamboo.init.erb'
+            $reload_systemd    = false
+            $service_file_mode = '0755'
           }
         }
         'Debian': {
-          if versioncmp($::operatingsystemmajrelease, '8') == 0 {
-            $service_file     = '/lib/systemd/system/bamboo.service'
-            $service_template = 'bamboo/bamboo.service.erb'
-            $service_provider = 'systemd'
-          } elsif versioncmp($::operatingsystemmajrelease, '9') >= 0 {
-            $service_file     = '/etc/systemd/system/bamboo.service'
-            $service_template = 'bamboo/bamboo.service.erb'
-            $service_provider = 'systemd'
+          if versioncmp($facts['operatingsystemmajrelease'], '8') == 0 {
+            $service_file      = '/lib/systemd/system/bamboo.service'
+            $service_template  = 'bamboo/bamboo.service.erb'
+            $reload_systemd    = true
+            $service_file_mode = '0644'
+          }
+          elsif versioncmp($facts['operatingsystemmajrelease'], '9') >= 0 {
+            $service_file      = '/etc/systemd/system/bamboo.service'
+            $service_template  = 'bamboo/bamboo.service.erb'
+            $reload_systemd    = true
+            $service_file_mode = '0644'
           }
           else {
-            $service_file     = '/etc/init.d/bamboo'
-            $service_template = 'bamboo/bamboo.init.erb'
-            $service_provider = undef
+            $service_file      = '/etc/init.d/bamboo'
+            $service_template  = 'bamboo/bamboo.init.erb'
+            $reload_systemd    = false
+            $service_file_mode = '0755'
           }
         }
         default: {
-          fail("The bamboo module is not supported on ${::operatingsystem}")
+          fail("The bamboo module is not supported on ${facts['operatingsystem']}")
         }
       }
 
@@ -61,7 +71,7 @@ class bamboo::params {
     }
 
     default: {
-      fail("The bamboo module is not supported on ${::osfamily}")
+      fail("The bamboo module is not supported on ${facts['osfamily']}")
     }
   }
 
@@ -70,7 +80,7 @@ class bamboo::params {
   # Refer to:
   #   https://docs.puppet.com/facter/3.5/custom_facts.html#fact-locations
   #   https://github.com/puppetlabs/facter/commit/4bcd6c87cf00609f28be23f6463a3d76d0b6613c
-  if versioncmp($::facterversion, '2.4.2') >= 0 {
+  if versioncmp($facts['facterversion'], '2.4.2') >= 0 {
     $facter_dir = '/opt/puppetlabs/facter/facts.d'
   }
   else {

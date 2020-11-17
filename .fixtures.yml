@@ -1,7 +1,13 @@
 fixtures:
-  repositories:
-    stdlib: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
-    archive: "https://github.com/voxpupuli/puppet-archive.git"
-    augeas_core: "https://github.com/puppetlabs/puppetlabs-augeas_core.git"
+  forge_modules:
+    stdlib:
+      repo: 'puppetlabs/stdlib'
+      ref: '5.2.0'
+    archive:
+      repo: 'puppet/archive'
+      ref: '3.2.1'
+    augeas_core:
+      repo: 'puppetlabs/augeas_core'
+      ref: '1.0.4'
   symlinks:
     bamboo: "#{source_dir}"

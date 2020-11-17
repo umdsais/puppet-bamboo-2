@@ -29,7 +29,7 @@ describe 'bamboo' do
                 it do
                   is_expected.to contain_file('/opt/puppetlabs/facter/facts.d/bamboo_facts.txt').with(
                     ensure: 'file',
-                    content: %r{^bamboo_version=6\.7\.1$},
+                    content: %r{^bamboo_version=#{BAMBOO_VERSION}$},
                   )
                 end
 
@@ -43,9 +43,7 @@ describe 'bamboo' do
 
             context 'with facter < 2.4.2' do
               let(:facts) do
-                facts.merge(
-                  facterversion: '2.4.1',
-                )
+                super().merge('facterversion' => '2.4.1')
               end
 
               it do
@@ -57,7 +55,7 @@ describe 'bamboo' do
               it do
                 is_expected.to contain_file('/etc/puppetlabs/facter/facts.d/bamboo_facts.txt').with(
                   ensure: 'file',
-                  content: %r{^bamboo_version=6\.7\.1$},
+                  content: %r{^bamboo_version=#{BAMBOO_VERSION}$},
                 )
               end
             end

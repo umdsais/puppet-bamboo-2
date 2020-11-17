@@ -1,0 +1,14 @@
+name: Run static validation
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run static validation
+        uses: puppet-enterprise-support-team/action-pdk-validate@v1

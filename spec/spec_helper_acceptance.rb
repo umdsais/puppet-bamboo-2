@@ -4,17 +4,13 @@ require 'beaker-rspec/spec_helper'
 require 'beaker-rspec/helpers/serverspec'
 require 'beaker/puppet_install_helper'
 require 'beaker/module_install_helper'
+require 'spec_vars' if File.file?(File.join(File.dirname(__FILE__), 'spec_vars.rb'))
 
 run_puppet_install_helper
 configure_type_defaults_on(hosts)
 install_ca_certs unless ENV['PUPPET_INSTALL_TYPE'] =~ %r{pe}i
 install_module_on(hosts)
 install_module_dependencies_on(hosts)
-
-# if these environment variables are set, pass them as class parameters for
-# our tests (e.g. use a locally hosted bamboo tarball)
-BAMBOO_DOWNLOAD_URL = ENV['BAMBOO_DOWNLOAD_URL'] || nil
-BAMBOO_VERSION = ENV['BAMBOO_VERSION'] || nil
 
 RSpec.configure do |c|
   # Project root
@@ -40,20 +36,14 @@ RSpec.configure do |c|
       on host, '/bin/touch /etc/puppetlabs/code/hiera.yaml'
       on host, 'chmod 755 /root'
       if fact_on(host, 'osfamily') == 'Debian'
-        on host, "echo \"en_US ISO-8859-1\nen_NG.UTF-8 UTF-8\nen_US.UTF-8 UTF-8\n\" > /etc/locale.gen"
-        on host, '/usr/sbin/locale-gen'
-        on host, '/usr/sbin/update-locale'
         # Install sources for OpenJDK 8 on older distributions
         if fact_on(host, 'operatingsystem') == 'Ubuntu'
           on host, 'apt-get install -y software-properties-common'
           on host, 'add-apt-repository ppa:openjdk-r/ppa'
         end
 
-        if fact_on(host, 'operatingsystemmajrelease') == '8'
-          on host, 'echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main" >> /etc/apt/sources.list'
-        end
-
         on host, 'apt-get update'
+
       end
 
       on host, puppet('module', 'install', 'puppetlabs-stdlib'), acceptable_exit_codes: [0, 1]

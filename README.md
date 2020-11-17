@@ -1,15 +1,6 @@
 # puppet-bamboo
 
-__NOTICE:__ This project is dormant and looking for a new owner.
-If you would like to assume the role of maintaining this project, please get in
-touch with <josh@joshbeard.me>
-
-Otherwise, please seek alternative modules: <https://forge.puppet.com/modules?utf-8=%E2%9C%93&page_size=25&sort=rank&q=bamboo>
-
----
-
-[![Puppet Forge](http://img.shields.io/puppetforge/v/joshbeard/bamboo.svg)](https://forge.puppetlabs.com/joshbeard/bamboo)
-[![Build Status](https://travis-ci.org/joshbeard/puppet-bamboo.svg?branch=master)](https://travis-ci.org/joshbeard/puppet-bamboo)
+[![Puppet Forge](http://img.shields.io/puppetforge/v/pest/bamboo.svg)](https://forge.puppetlabs.com/pest/bamboo)
 
 1. [Overview](#overview)
 2. [Prerequisites](#prerequisites)
@@ -440,11 +431,9 @@ Whether the service should start on boot.
 
 ##### `service_file`
 
-Default: `/etc/init.d/bamboo` for everything except EL7
+Default: OS-specific (refer to `manifests/params.pp`)
 
-Path to the init script.  Typically, this is `/etc/init.d/bamboo`. On EL7,
-systemd is used and this parameter is set to
-`/usr/lib/systemd/system/bamboo.service`
+Path to the init script or service file (systemd).
 
 ##### `service_template`
 
@@ -457,7 +446,7 @@ like.  This should refer to a Puppet module template. E.g.
 
 ##### `shutdown_wait`
 
-Default: '20'
+Default: `20`
 
 Seconds to wait for the Bamboo process to stop. (e.g. service bamboo stop will
 wait this interval before attempting to kill the process and returning).
@@ -525,6 +514,20 @@ the init config file with.
 Default: `undef` (will use Bamboo's default)
 
 Specifies a UMASK to run Bamboo with.
+
+##### `checksum`
+
+Download archive file checksum.
+
+##### `checksum_type`
+
+Type of checksum for the archive file download.
+
+Specifies the `checksum_type` parameter on the [puppet/archive](https://forge.puppet.com/puppet/archive) resource.
+
+Valid options: (none|md5|sha1|sha2|sha256|sha384|sha512)
+
+Default: `md5`
 
 ### Other Classes
 
