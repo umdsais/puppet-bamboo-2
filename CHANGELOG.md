@@ -1,10 +1,11 @@
-## 2019-XX-XX - Release 4.0.0
+## 2020-11-17 - Release 4.0.0
 
-### Breaking Changes
+### Summary
 
-- Requires Puppet xx
-- Requires Stdlib xx
-
+- Requires Puppet 4.10.0
+- Changed default version to latest bamboo release 7.1.4
+- Introduced types on init.pp
+- Fixed spec tests for `pdk test unit`
 
 ## 2019-04-23 - Release 3.6.0
 

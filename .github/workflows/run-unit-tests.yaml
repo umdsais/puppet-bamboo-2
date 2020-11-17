@@ -1,0 +1,14 @@
+name: Run unit tests
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run unit tests
+        uses: puppet-enterprise-support-team/action-pdk-test-unit@v1

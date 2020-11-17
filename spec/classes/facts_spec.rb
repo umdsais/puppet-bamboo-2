@@ -43,9 +43,7 @@ describe 'bamboo' do
 
             context 'with facter < 2.4.2' do
               let(:facts) do
-                facts.merge(
-                  facterversion: '2.4.1',
-                )
+                super().merge('facterversion' => '2.4.1')
               end
 
               it do
