@@ -1,3 +1,11 @@
+## 2020-11-17 - Release 4.0.1
+
+### Summary
+
+- Extended test suite to puppet 5 and puppet 6
+- Updated README.md and metadata.json
+- Added .sync.yml for `pdk update`
+
 ## 2020-11-17 - Release 4.0.0
 
 ### Summary

@@ -33,7 +33,7 @@ of [Atlassian Bamboo](https://www.atlassian.com/software/bamboo), a continuous i
 
 There's still some post-installation steps that will need to be completed manually, such as entering a license and configuring the database.
 
-This is a fork of [maestrodev/bamboo](https://github.com/maestrodev/puppet-bamboo),
+This is a fork of [joshbeard/puppet-bamboo]https://github.com/joshbeard/puppet-bamboo which itself is a fork of [maestrodev/bamboo](https://github.com/maestrodev/puppet-bamboo),
 which appears to be dormant.  It includes improvements from other authors as
 well, notably, [Simon Croomes](https://github.com/croomes/puppet-bamboo).
 
