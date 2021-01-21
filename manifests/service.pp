@@ -2,8 +2,6 @@
 #
 class bamboo::service {
 
-  assert_private()
-
   if $bamboo::initconfig_manage {
     file { $bamboo::initconfig_path:
       ensure  => 'file',

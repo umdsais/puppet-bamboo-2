@@ -2,8 +2,6 @@
 #
 class bamboo::configure {
 
-  assert_private()
-
   file { "${bamboo::real_appdir}/bin/setenv.sh":
     ensure  => 'file',
     owner   => $bamboo::user,

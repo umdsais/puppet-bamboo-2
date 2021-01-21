@@ -2,8 +2,6 @@
 #
 class bamboo::install {
 
-  assert_private()
-
   $file = "atlassian-bamboo-${bamboo::version}.${bamboo::extension}"
 
   if $bamboo::manage_user {
